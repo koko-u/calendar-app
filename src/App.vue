@@ -1,27 +1,39 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <CalendarWeek :week="store.state.week" />
+  <CalendarEntry />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import CalendarEntry from "./components/CalendarEntry.vue";
+import CalendarWeek from "./components/CalendarWeek.vue";
+import { store } from "./store";
 
 export default defineComponent({
   name: "App",
-  components: {
-    HelloWorld
+  components: { CalendarWeek, CalendarEntry },
+  data() {
+    return {
+      store
+    };
   }
 });
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+html,
+body {
+  height: 100%;
 }
+
+#app {
+  height: inherit;
+  background: #6e6e6e;
+  padding-top: 40px;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
 </style>
