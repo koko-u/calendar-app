@@ -1,7 +1,17 @@
 <template>
   <div id="calendar-week" class="container">
     <div class="columns is-mobile">
-      <CalendarDay v-for="day in week" :day="day" :key="day.id" />
+      <CalendarDay
+        v-for="day in store.state.week"
+        :day="day"
+        :key="day.id"
+        :set-active-day="id => store.setActiveDay(id)"
+        :toggle-edit="(id, index) => store.toggleEdit(id, index)"
+        :update-event="
+          (id, index, details) => store.updateEvent(id, index, details)
+        "
+        :delete-event="(id, index) => store.deleteEvent(id, index)"
+      />
     </div>
   </div>
 </template>
@@ -9,16 +19,18 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import CalendarDay from "./CalendarWeek/CalendarDay.vue";
-import { Day } from "../models/Day";
+import { Store } from "@/models/Store";
 
 export default defineComponent({
   name: "CalendarWeek",
   components: { CalendarDay },
   props: {
-    week: {
-      type: Array as PropType<Day[]>
+    store: {
+      type: Object as PropType<Store>,
+      required: true
     }
-  }
+  },
+  methods: {}
 });
 </script>
 

@@ -1,6 +1,6 @@
 <template>
-  <CalendarWeek :week="store.state.week" />
-  <CalendarEntry />
+  <CalendarWeek :store="store" />
+  <CalendarEntry :store="store" />
 </template>
 
 <script lang="ts">

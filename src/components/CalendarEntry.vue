@@ -1,20 +1,56 @@
 <template>
   <div id="calendar-entry">
     <div class="calendar-entry-note">
-      <input type="text" placeholder="New Event" />
+      <input type="text" placeholder="New Event" v-model="eventDetails" />
       <p class="calendar-entry-day">
-        Day of event: <span class="bold">Monday</span>
+        Day of event: <span class="bold">{{ titleOfActiveDay }}</span>
       </p>
-      <a class="button is-primary is-small is-outlined">Submit</a>
+      <a class="button is-primary is-small is-outlined" @click="submitEvent">Submit</a>
     </div>
+    <p class="error" v-if="hasError">
+      You must type something first.
+    </p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import { Store } from "@/models/Store";
 
 export default defineComponent({
-  name: "CalendarEntry"
+  name: "CalendarEntry",
+  props: {
+    store: {
+      type: Object as PropType<Store>,
+      required: true
+    }
+  },
+  data() {
+    return {
+      eventDetails: "",
+      hasError: false
+    };
+  },
+  computed: {
+    titleOfActiveDay(): string | undefined {
+      const activeDay = this.store.getActiveDay();
+      return activeDay?.fullTitle;
+    }
+  },
+  methods: {
+    submitEvent() {
+      const result = this.store.submitEvent(this.eventDetails);
+      switch (result) {
+        case "success":
+          this.hasError = false;
+          this.eventDetails = "";
+          break;
+        case "error":
+          this.hasError = true;
+          break;
+      }
+    }
+  }
 });
 </script>
 
@@ -58,6 +94,11 @@ export default defineComponent({
       display: block;
       margin: 0 auto;
     }
+  }
+
+  .error {
+    color: red;
+    font-size: 13px;
   }
 }
 

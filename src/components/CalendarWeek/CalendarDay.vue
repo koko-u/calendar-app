@@ -1,5 +1,5 @@
 <template>
-  <div class="day column">
+  <div class="day column" @click="setActiveDay(day.id)">
     <div class="day-banner has-text-white has-text-centered">
       {{ day.abbvTitle }}
     </div>
@@ -7,7 +7,12 @@
       <div class="day-number">{{ day.id }}</div>
       <CalendarEvent
         v-for="(event, index) in day.events"
+        :day-id="day.id"
+        :event-index="index"
         :event="event"
+        :toggle-edit="toggleEdit"
+        :update-event="updateEvent"
+        :delete-event="deleteEvent"
         :key="index"
       />
     </div>
@@ -17,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import CalendarEvent from "./CalendarDay/CalendarEvent.vue";
-import { Day } from "../../models/Day";
+import { Day } from "@/models/Day";
 
 export default defineComponent({
   name: "CalendarDay",
@@ -25,6 +30,21 @@ export default defineComponent({
   props: {
     day: {
       type: Object as PropType<Day>
+    },
+    setActiveDay: {
+      type: Function as PropType<(id: number) => void>
+    },
+    toggleEdit: {
+      type: Function as PropType<(dayId: number, eventIndex: number) => void>,
+      required: true
+    },
+    updateEvent: {
+      type: Function as PropType<(dayId: number, eventIndex: number, eventDetails: string) => void>,
+      required: true
+    },
+    deleteEvent: {
+      type: Function as PropType<(dayId: number, eventIndex: number) => void>,
+      required: true
     }
   }
 });

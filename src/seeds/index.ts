@@ -9,14 +9,14 @@ export const seedData: Day[] = [
       { details: "Get Groceries", edit: false },
       { details: "Carpool", edit: false }
     ],
-    active: true
+    active: false
   },
   {
     id: 2,
     abbvTitle: "Tue",
     fullTitle: "Tuesday",
     events: [{ details: "Yoga/Gym", edit: false }],
-    active: false
+    active: true
   },
   {
     id: 3,
